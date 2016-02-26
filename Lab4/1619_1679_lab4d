@@ -1,0 +1,98 @@
+Θεοδοσίου Κων/νος 1619
+Τσώκος 	  Φώτης	  1679
+
+
+lab4d
+------
+i) Υλοποίηση σε κώδικα
+
+
+	.data
+ptr1	.word	*ptr1
+ptr2	.word	*ptr2		
+ptr3	.word	*ptr3
+ptr4	.word	*ptr4
+	
+	.text
+
+
+#...................
+#CODE
+#..................
+
+
+#$t5 = val5
+#$t6 = val6
+
+
+#*ptr1 == 0
+lw 	$t1, 0(ptr1) //2 cycles
+lw 	$t3, 0(ptr3) //2 cycles
+bnez 	$t1, false   //1 | 2 cycles	
+lw 	$t3, 0(ptr4) //2 cycles
+
+#((*ptr2 = *ptr3) == 1)
+
+sw 	$t3, 0(ptr2) //2 cycles
+addi 	$t1, $zero, 1 //1 cycles
+bne	$t1, $t3, false //1 | 2 cycles
+
+#((*ptr4 > 2))
+addi 	$t3, $t3, -2 //1 cycles
+blez    $t3, false   //1 | 2 cycles 
+
+//IF TRUE
+
+addi $t5, $t5, 1  //1 cycle	
+
+j continue //1 cycle
+
+false:
+ 
+addi $t6, $t6, 1 //1 cycle
+
+continue:
+
+#...................
+#CODE
+#..................
+
+
+
+
+Best case scenario : 
+Στην καλύτερη περίπτωση θα έχουμε *ptr1 ! = 0 οπότε θα έχουμε 2 cycles lw, 2 cycles bnez(διότι η συνθήκη είναι αληθής), 1 cycle addi
+Συνολικά 5 cycles
+
+
+Worst case scenario: 
+*ptr1 == 0, *ptr3 == 1, *ptr4 > 2 | *ptr4 <= 2
+Διότι θα έχουμε lw ptr1 2ccl, bnez 1 cycle(ψευδής ), lw ptr3 2 ccl, sw ptr2 2 ccl, addi 1 ccl, bne 1 ccl(ψευδής), lw ptr4 2 ccl, addi 1 ccl.
+Μέχρι τώρα έχουμε συνολικά 12 κύκλους. Σε περίπτωση που blez ψευδής θα έχουμε  +2 κύκλους +1 για το addi, στην αντίθετη περίπτωση θα έχουμε 1 ccl για τον έλεγχο και άλλον
+ένα για το  addi +1 για το j continue. Συνολικά 15(12 + 3) κύκλους μηχανής 
+
+
+Έχουμε συνολικά 4 πιθανά σενάρια :
+1) Να αποτύχει στο πρώτο if 5 ccl
+2) Να αποτύχει στο δεύτερο if 11 ccl
+3) Να αποτύχει στο τρίτο if   15 ccl
+4) Να πετύχει  στο  τρίτο if   15 ccl
+
+CCLavg = Σcl/nof_cycles = 46 / 4 = 12.5 ccl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

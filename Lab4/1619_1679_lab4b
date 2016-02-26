@@ -1,0 +1,66 @@
+Θεοδοσίου Κωνσταντίνος	1619
+Τσώκος Φώτης		1679
+
+Lab 4
+
+a)
+
+nis temp,temp,.+1    #init temp = 0
+nis temp,b,.+1	     #temp = -b
+nis a,temp,.+1	     #a = a -(-b) = a+b
+
+
+
+b)
+#init c,d,tempa to zero 
+nis c,c,.+1
+nis d,d,.+1
+nis tempa,tempa,.+1
+
+#set tempa = -a
+nis tempa,a,.+1
+
+#get -b 
+nis minb,minb,.+1    #init minb = 0
+nis minb,b,.+1	     #minb = -b
+
+
+#loop:
+	#c++
+	nis temp,temp,.+1
+	nis temp,one,.+1
+	nis c,temp,.+1
+
+	#if tempa < 0 go to loop
+	nis tempa,minb,.-3
+	#else break
+
+
+nis mina,mina,.+1   
+nis mina,tempa,.+1   #mina = -tempa
+
+#check if a%b (-1 - (-tempa) < 0)
+nis temp, mina, +5
+
+#if a%b > 0
+	#remove one from counter
+	nis c,one,.+1
+
+	#set d to -tempa
+	nis d,tempa,.+1 #d = -tempa, where tempa => 0
+
+	#set d to -tempa - (-b)
+	nis d,minb,.+1 #d = d - (-b)
+
+	nis tempa, a, + 2
+
+#if a%b == 0
+	nis d,d, +1
+
+
+#continue program
+
+
+
+
+
